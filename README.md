@@ -20,6 +20,11 @@ https://github.com/lucky0612/InsightDigest/assets/145666325/526f5fa6-69e9-48ff-b
 - Interactive UI for user input and customization of summarization length.
 - Offer multilingual translation capabilities to overcome language barriers and access information in different languages.
 
+## Future Goals 
+- Make the platform accessible to users withdiverse needs and abilities.
+- Analyze the sentiment of the article to provide users with an understanding of the author's tone and potential biases.
+- Integrate fact-checking mechanisms to ensure the accuracy and credibility of the information presented in the articles.
+- Enhance the translation capabilities to provide summaries and insights in a broader range of languages.
 
 ## Installation
 
