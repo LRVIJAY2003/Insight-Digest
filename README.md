@@ -1,255 +1,106 @@
-/**
- * Main JavaScript for Enterprise Knowledge Explorer
- */
+/* Dark Theme for Enterprise Knowledge Explorer */
 
-document.addEventListener('DOMContentLoaded', function() {
-    // Theme toggle functionality
-    setupThemeToggle();
-    
-    // Example query functionality
-    setupExampleQueries();
-    
-    // Form submission with loading indicator
-    setupFormSubmission();
-    
-    // Source checkboxes validation
-    setupSourceValidation();
-    
-    // Initialize scrollable areas
-    setupScrollableAreas();
-});
-
-/**
- * Set up theme toggle between light and dark mode
- */
-function setupThemeToggle() {
-    const themeToggle = document.getElementById('theme-toggle');
-    const themeStyle = document.getElementById('theme-style');
-    const themeInput = document.getElementById('theme-input');
-    const body = document.body;
-    
-    // Check for stored theme preference
-    const storedTheme = localStorage.getItem('theme');
-    if (storedTheme === 'dark') {
-        enableDarkMode();
-    }
-    
-    // Toggle theme on button click
-    if (themeToggle) {
-        themeToggle.addEventListener('click', function() {
-            if (body.classList.contains('dark-mode')) {
-                disableDarkMode();
-            } else {
-                enableDarkMode();
-            }
-        });
-    }
-    
-    function enableDarkMode() {
-        body.classList.add('dark-mode');
-        themeStyle.removeAttribute('disabled');
-        localStorage.setItem('theme', 'dark');
-        if (themeInput) themeInput.value = 'dark';
-    }
-    
-    function disableDarkMode() {
-        body.classList.remove('dark-mode');
-        themeStyle.setAttribute('disabled', true);
-        localStorage.setItem('theme', 'light');
-        if (themeInput) themeInput.value = 'light';
-    }
+.dark-mode {
+    /* Dark Theme Variables */
+    --color-background: #111827;
+    --color-sidebar: #1F2937;
+    --color-text: #F9FAFB;
+    --color-text-secondary: #9CA3AF;
+    --color-primary: #60A5FA;
+    --color-primary-light: #1F2937;
+    --color-accent: #34D399;
+    --color-border: #374151;
+    --color-card: #1F2937;
+    --color-card-hover: #2D3748;
+    --color-error: #F87171;
+    --color-warning: #FBBF24;
+    --color-success: #34D399;
+    --color-info: #60A5FA;
+    --color-code-bg: #374151;
+    --color-mark: rgba(250, 204, 21, 0.25);
+    --color-shadow: rgba(0, 0, 0, 0.3);
+    --color-input-background: #1F2937;
+    --color-input-border: #374151;
+    --color-input-text: #F9FAFB;
 }
 
-/**
- * Set up example query functionality
- */
-function setupExampleQueries() {
-    const exampleQueries = document.querySelectorAll('.example-query');
-    const queryInput = document.getElementById('query');
-    const queryForm = document.getElementById('queryForm');
-    
-    exampleQueries.forEach(query => {
-        query.addEventListener('click', function() {
-            const queryText = this.getAttribute('data-query');
-            if (queryInput && queryText) {
-                queryInput.value = queryText;
-                queryInput.focus();
-                
-                // Optionally submit the form automatically
-                // if (queryForm) queryForm.submit();
-            }
-        });
-    });
+.dark-mode .result-header {
+    background-color: #1E3A8A;
 }
 
-/**
- * Set up form submission with loading indicator
- */
-function setupFormSubmission() {
-    const queryForm = document.getElementById('queryForm');
-    const searchButton = document.querySelector('.search-button');
-    const searchButtonText = document.getElementById('search-button-text');
-    const searchSpinner = document.getElementById('search-spinner');
-    
-    if (queryForm) {
-        queryForm.addEventListener('submit', function() {
-            // Show loading state
-            if (searchButton) searchButton.setAttribute('disabled', 'disabled');
-            if (searchButtonText) searchButtonText.textContent = 'Searching...';
-            if (searchSpinner) searchSpinner.classList.remove('hidden');
-        });
-    }
+.dark-mode .confluence-result .result-header {
+    background-color: #0747A6;
 }
 
-/**
- * Ensure at least one source is selected
- */
-function setupSourceValidation() {
-    const confluenceCheckbox = document.getElementById('source_confluence');
-    const remedyCheckbox = document.getElementById('source_remedy');
-    const queryForm = document.getElementById('queryForm');
-    
-    function validateSourceSelection() {
-        if (!confluenceCheckbox.checked && !remedyCheckbox.checked) {
-            confluenceCheckbox.setCustomValidity('Please select at least one source');
-        } else {
-            confluenceCheckbox.setCustomValidity('');
-        }
-    }
-    
-    if (confluenceCheckbox && remedyCheckbox) {
-        confluenceCheckbox.addEventListener('change', validateSourceSelection);
-        remedyCheckbox.addEventListener('change', validateSourceSelection);
-        
-        // Initial validation
-        validateSourceSelection();
-    }
-    
-    // Before form submission, make sure at least one is checked
-    if (queryForm) {
-        queryForm.addEventListener('submit', function(event) {
-            if (!confluenceCheckbox.checked && !remedyCheckbox.checked) {
-                event.preventDefault();
-                alert('Please select at least one source (Confluence or Remedy)');
-            }
-        });
-    }
+.dark-mode .remedy-result .result-header {
+    background-color: #C41E3A;
 }
 
-/**
- * Setup scrollable areas for better mobile experience
- */
-function setupScrollableAreas() {
-    const resultContents = document.querySelectorAll('.result-content');
-    
-    // Add touch scrolling for mobile devices
-    resultContents.forEach(content => {
-        content.addEventListener('touchstart', function(e) {
-            // Store the initial touch position
-            this.startY = e.touches[0].clientY;
-        }, { passive: true });
-        
-        content.addEventListener('touchmove', function(e) {
-            if (!this.startY) return;
-            
-            const touchY = e.touches[0].clientY;
-            const scrollTop = this.scrollTop;
-            const scrollHeight = this.scrollHeight;
-            const height = this.offsetHeight;
-            
-            // Check if at the top or bottom of the scrollable area
-            const isAtTop = scrollTop === 0 && touchY > this.startY;
-            const isAtBottom = scrollTop + height >= scrollHeight && touchY < this.startY;
-            
-            // If at the edge, prevent default to avoid body scrolling
-            if (isAtTop || isAtBottom) {
-                e.preventDefault();
-            }
-        }, { passive: false });
-        
-        content.addEventListener('touchend', function() {
-            // Reset the touch position
-            this.startY = null;
-        }, { passive: true });
-    });
+.dark-mode .example-query {
+    background-color: #1F2937;
 }
 
-/**
- * API client functions for programmatic access
- */
-class ApiClient {
-    /**
-     * Send a query to the RAG system API
-     * @param {string} query - The query text
-     * @param {Array} sources - Sources to search (optional)
-     * @returns {Promise} - Promise resolving to the API response
-     */
-    static async query(query, sources = null) {
-        try {
-            const response = await fetch('/api/query', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    query: query,
-                    sources: sources
-                }),
-            });
-            
-            if (!response.ok) {
-                throw new Error(`HTTP error ${response.status}`);
-            }
-            
-            return await response.json();
-        } catch (error) {
-            console.error('Error querying the API:', error);
-            throw error;
-        }
-    }
-    
-    /**
-     * Clear the system cache
-     * @returns {Promise} - Promise resolving to the API response
-     */
-    static async clearCache() {
-        try {
-            const response = await fetch('/clear-cache', {
-                method: 'GET',
-            });
-            
-            if (!response.ok) {
-                throw new Error(`HTTP error ${response.status}`);
-            }
-            
-            return await response.json();
-        } catch (error) {
-            console.error('Error clearing cache:', error);
-            throw error;
-        }
-    }
-    
-    /**
-     * Get system information
-     * @returns {Promise} - Promise resolving to the API response
-     */
-    static async getSystemInfo() {
-        try {
-            const response = await fetch('/system-info', {
-                method: 'GET',
-            });
-            
-            if (!response.ok) {
-                throw new Error(`HTTP error ${response.status}`);
-            }
-            
-            return await response.json();
-        } catch (error) {
-            console.error('Error getting system info:', error);
-            throw error;
-        }
-    }
+.dark-mode .example-query:hover {
+    background-color: #2D3748;
 }
 
-// Make available globally for console usage
-window.ApiClient = ApiClient;
+.dark-mode .keyword {
+    background-color: #1E3A8A;
+    color: #60A5FA;
+}
+
+.dark-mode .search-button {
+    background-color: #3B82F6;
+}
+
+.dark-mode .search-button:hover {
+    background-color: #2563EB;
+}
+
+.dark-mode .error-message {
+    background-color: #7F1D1D;
+    border-color: #B91C1C;
+    color: #FECACA;
+}
+
+.dark-mode .error-message i {
+    color: #F87171;
+}
+
+.dark-mode mark {
+    background-color: rgba(146, 64, 14, 0.4);
+    color: #FBBF24;
+}
+
+.dark-mode .search-input-container:focus-within {
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.5);
+}
+
+.dark-mode .result-box {
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+}
+
+.dark-mode .result-box:hover {
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5);
+}
+
+.dark-mode .welcome-section {
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+}
+
+.dark-mode .welcome-container h2 {
+    color: var(--color-text);
+}
+
+.dark-mode .welcome-container p {
+    color: var(--color-text-secondary);
+}
+
+.dark-mode .source-option:hover .checkmark {
+    background-color: #374151;
+}
+
+.dark-mode .keywords-container {
+    background-color: var(--color-card);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.4);
+}
